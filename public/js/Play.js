@@ -29,8 +29,9 @@ class Play extends Phaser.Scene
         this.wall_floor.refresh();
         this.wall_floor.getChildren()[2].setOffset(0, 15);
 
-
-
+        //this.PlayersText.setText('AABBB');
+        this.PlayersText = this.add.text(520, 30, "", {fontSize: '32px', fill: '#172547'});
+        
           // Bombs
         this.bombsGroup = new Bombs({
             physicsWorld: this.physics.world,
@@ -57,6 +58,7 @@ class Play extends Phaser.Scene
                 if (players[id].playerId === self.socket.id)
                 {   
                     console.log("addPlayer: ", players[id]);
+                    this.
                     addPlayer(self, players[id]);
                 }else
                 {   

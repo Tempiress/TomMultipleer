@@ -8,11 +8,7 @@ app.use(express.static(__dirname + '/public'));
 
 var players = {};
 num_players = 0;
-var scores = {
-  firstPlayer: 0,
-  SecondPlayer: 0
-};
-
+var scores = {};
 
 console.log('Сервер запущен...');
 app.get('/', function (req, res) {
@@ -25,7 +21,8 @@ io.on('connection', function (socket) {
       playerId: socket.id,
       x: Math.floor(Math.random() * (635 - 50 + 1 )) + 50, //начальная позиция по оси x
       y: 287,  //начальная позиция по оси y 
-      playerId: socket.id
+      playerId: socket.id,
+      scores: scores[socket.id] = 0
     };
 
     //отправляем объект players новому игроку
