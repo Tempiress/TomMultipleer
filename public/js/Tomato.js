@@ -22,7 +22,7 @@ class Tomato extends Phaser.GameObjects.Sprite
 
         this.cursor = this.scene.input.keyboard.createCursorKeys();
 
-        this.life = 3;
+        this.life = 300;
     }
     
 

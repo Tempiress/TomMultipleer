@@ -3,7 +3,7 @@ class Bombs extends Phaser.Physics.Arcade.Group
     constructor(config) 
     {
         super(config.physicsWorld, config.scene);
-        this.addBomb();
+        //this.addBomb();
     }
 
     addBomb() {

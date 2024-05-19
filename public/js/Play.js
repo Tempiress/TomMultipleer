@@ -29,8 +29,19 @@ class Play extends Phaser.Scene
         this.wall_floor.refresh();
         this.wall_floor.getChildren()[2].setOffset(0, 15);
 
-        //this.PlayersText.setText('AABBB');
         this.PlayersText = this.add.text(520, 30, "", {fontSize: '32px', fill: '#172547'});
+        //this.PlayersText.setText('AABBB');
+        this.socket.on('UpdateScores', function(scores){
+            console.log("SCR", scores[this.socket.id]);
+            //this.PlayersText.setText(scores[]);
+            scores.forEach(function(score){
+                console.log("SCORE:", score);
+            });
+            
+        });
+
+
+        this.scene.get('UI').socket = this.socket;
         
           // Bombs
         this.bombsGroup = new Bombs({
@@ -46,7 +57,7 @@ class Play extends Phaser.Scene
 
         this.physics.add.collider(this.bombsGroup, this.wall_floor);
 
-
+        
         //Получаем информацию о текущих игроках от сервера
         this.socket.on('currentPlayers', function(players){
             //Обновляем отображение всех текущих игроков
@@ -58,8 +69,8 @@ class Play extends Phaser.Scene
                 if (players[id].playerId === self.socket.id)
                 {   
                     console.log("addPlayer: ", players[id]);
-                    this.
                     addPlayer(self, players[id]);
+
                 }else
                 {   
                     console.log("AddOtherPlayer: ", players[id]);
@@ -68,10 +79,12 @@ class Play extends Phaser.Scene
             });
         });
         
-
+        
          this.socket.on('newPlayer', function(playerInfo){
             addOtherPlayers(self, playerInfo);
          });
+
+
 
         this.socket.on('playerDisconnect', function(playerId){
             console.log("PlayerId:", playerId);
@@ -122,6 +135,8 @@ class Play extends Phaser.Scene
             self.itemsGroup.destroyItem();
             self.bombsGroup.addBomb();       
         });
+
+
 
     }
 

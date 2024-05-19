@@ -3,12 +3,14 @@ class UI extends Phaser.Scene
     constructor ()
     {
         super({key: 'UI'});
+        //this.socket = io();
     }
 
     init ()
     {
         this.scene.moveUp();
         this.actual_points = 0;
+
     }
 
     create ()
@@ -33,7 +35,7 @@ class UI extends Phaser.Scene
 
         // Events
         this.registry.events.on('remove_life', () => {
-            this.groupLife.getChildren()[this.groupLife.getChildren().length - 1].destroy();
+            //this.groupLife.getChildren()[this.groupLife.getChildren().length - 1].destroy();
         });
         this.registry.events.on('game_over', () => {
             this.registry.events.removeAllListeners();
@@ -42,6 +44,8 @@ class UI extends Phaser.Scene
 
         this.registry.events.on('update_points', () => {
             this.actual_points += 10;
+            //console.log(this.socket);
+            this.socket.emit('updatePoints', {points: this.actual_points});
             this.points.setText(Phaser.Utils.String.Pad(this.actual_points, 6, '0', 1));
         });
     }

@@ -21,23 +21,31 @@ io.on('connection', function (socket) {
       playerId: socket.id,
       x: Math.floor(Math.random() * (635 - 50 + 1 )) + 50, //начальная позиция по оси x
       y: 287,  //начальная позиция по оси y 
-      playerId: socket.id,
-      scores: scores[socket.id] = 0
+      playerId: socket.id
     };
 
+
+
+    scores[socket.id] = 0;
     //отправляем объект players новому игроку
     socket.emit('currentPlayers', players);
-
+    //socket.emit('Scores', scores);
     // обновляем всем другим игрокам информацию о новом игроке
     socket.broadcast.emit('newPlayer', players[socket.id]);
 
     //Когда игроки движутся, то обновляем информацию по ним
     socket.on('playerMovement', function(movementData){
       
-      console.log(players[socket.id]);
+      //console.log(players[socket.id]);
       players[socket.id].x = movementData.x;
       players[socket.id].y = movementData.y;
       socket.broadcast.emit('playerMoved', players[socket.id]);
+    });
+
+    socket.on("updatePoints", function(data){
+      scores[socket.id] = data.points;
+      console.log(`Игрок ${socket.id} обновил очки: ${data.points}`);
+      socket.broadcast.emit('UpdateScores', scores);
     });
 
 
